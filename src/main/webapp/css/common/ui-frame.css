@@ -1,0 +1,93 @@
+@charset "utf-8";
+
+/*框架样式, 只关心第一大层,不涉及任何具体细节*/
+html,body{
+	font-size: 12px;
+	/*font-family:"Microsoft JhengHei","Microsoft Yahei",Arial,Verdana,tahoma,Helvetica,sans-serif;*/
+    /*color: #474747;*/
+    background: #f3f3f3;
+    color: #666666;
+}
+
+
+/*顶部*/
+.header{
+	height: 70px;
+	background-color: #28282e;
+}
+
+/*主体*/
+.bodyer{
+	width: 100%;
+    margin-top: 24px;
+    top: 70px;
+    background-color: #fefefe;
+    position: absolute;
+    bottom: 40px;
+}
+/*主体顶部*/
+.operation{
+    height: 63px;
+    border-bottom: 2px solid #eaeaea;
+}
+/*主体表格*/
+.table{
+    /*margin-top: 22px;
+    margin-left: 18px;
+    margin-right: 18px;
+    margin-bottom: 30px;*/
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+    text-align: center;
+    margin-top: 20px;
+    /*border: 1px solid #dcdada;*/
+}
+.table tfoot{
+    text-align: left;
+    position: relative;
+    top: 30px;
+}
+
+/*主体分页*/
+.pagination{
+    height: 30px;
+    padding-bottom: 40px;
+    line-height: 30px;
+}
+.pageControl{
+    float: right;
+}
+.pageControl a{
+    display: inline-block;
+    border: 1px solid #eaeaea;
+    text-align: center;
+    margin: 0px 1px;
+    border-radius: 4px;
+    padding: 0px 11px;
+    color: #666666;
+}
+.pageControl .curPage{
+    color: #fff;
+    background-color: #4094fc;
+}
+
+/*底部*/
+.footer{
+	position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+    border-top: 1px solid #dbdbdb;
+    text-align: center;
+    color: #888;
+    background-color: #efefef;
+}
+
+/*弹窗表格*/
+.list.down.fail{
+    min-height: 200px;
+    max-height: 600px;
+    overflow-y: auto;
+    padding-bottom: 50px;
+}

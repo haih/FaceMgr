@@ -1,0 +1,193 @@
+@charset "utf-8";
+
+/*公共库样式*/
+.addFaceWrap .title h2{
+  	position: absolute;
+  	top: -30px;
+  	left: 50%;
+  	margin-left: -51px;
+  	font: 16px "Microsoft YaHei";
+  	font-weight: bold;
+  	letter-spacing: 1px;
+}
+.imgWrap{
+	height: 235px;
+	border-bottom: 1px dashed #e3e3e3;
+}
+.infoWrap{
+	height: 420px;
+}
+.uploadInstead{
+	position: absolute;
+  	width: 120px;
+  	height: 120px;
+  	border: 1px dashed #c3c3c5;
+  	top: 20px;
+  	left: 240px;
+  	background-color: #fff;
+  	z-index: 1;
+  	text-align: center;
+  	line-height: 120px;
+  	color: #cbcbcb;
+  	border-radius: 5px;
+  	font-size: 16px
+}
+.uploadInstead img{
+	width: 100%;
+	height: 100%;
+	border: 0px;
+	left: 0px;
+}
+form.addFace input[type="file"]{
+	width: 120px;
+  	height: 120px;
+  	background-color: #fff;
+  	margin: 0px auto;
+  	position: relative;
+  	display: block;
+  	top: 20px;
+}
+.imgWrap .previewImg{
+	position: absolute;
+  	left: 390px;
+  	top: 70px;
+  	font-size: 14px;
+  	color: #499aff;
+}
+.imgWrap .uploadImgBtn{
+	position: absolute;
+  	top: 170px;
+ 	width: 122px;
+  	height: 34px;
+  	background-color: #499aff;
+  	color: #fff;
+  	border-radius: 5px;
+  	text-align: center;
+  	line-height: 34px;
+  	font-size: 14px;
+  	left: 240px;
+}
+
+form.faceControl{
+	color: #666666;
+	font-size: "Microsoft YaHei"
+}
+.formList1.radioWrap{
+	text-align: center;
+  	line-height: 50px;
+  	letter-spacing: 10px;
+}
+.formList1.radioWrap input[type="radio"]{
+	position: relative;
+  	top: 3px;
+  	left: -6px;
+}
+
+.formList input[type="text"]{
+	height: 32px;
+	width: 245px;
+	border: 1px solid #d2d2d2;
+	border-radius: 4px;
+	padding-left: 12px
+}
+.formList span{
+	width: 200px;
+  	text-align: right;
+  	display: inline-block;
+  	position: relative;
+  	top: 8px;
+  	font-family: "Microsoft Yahei";
+}
+.formBtn{
+	text-align: center;
+	margin-top: 20px;
+}
+.formBtn a{
+	display: inline-block;
+	width: 124px;
+	height: 36px;
+	background-color: #eeeeee;
+	border: 1px solid #dcdcdc;
+	color: #666666;
+	line-height: 40px;
+	border-radius: 5px;
+	position: relative;
+	top: 2px
+}
+.formBtn button{
+	width: 124px;
+	height: 38px; 
+	background-color: #499aff;
+	border: 1px solid #fff;
+	color: #fff;
+	line-height: 40px;
+	border-radius: 5px;
+	margin-left: 30px;
+}
+/*伪造form框*/
+.imgPreviewSubmit{
+	position: absolute;
+	width: 122px;
+	height: 34px;
+	top: 170px;
+	left: 240px;
+	z-index: 1;
+	opacity: 0; 
+	filter:Alpha(opacity=0);
+}
+.imgPreviewSubmit input{
+	visibility: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+/*validate错误提示样式*/
+form.addFace label.error{
+	color: red;
+  	font-size: 12px;
+  	position: absolute;
+  	left: 480px;
+  	letter-spacing: 0px;
+  	top: 8px
+}
+/*缩略图样式*/
+.smallImg{
+	height: 40px;
+}
+
+/*预览弹窗图片样式*/
+.insideWrap{
+	width: 100%;
+	height: 100%;
+}
+.inside-title{
+	position: relative;
+	width: 100%;
+	height: 40px;
+	text-align: center;
+	color: #666666;
+}
+.inside-title h4{
+	position: absolute;
+  	font: 14px "Microsoft YaHei";
+  	top: 10px;
+  	left: 10px;
+}
+.inside-title .icon.close{
+	position: absolute;
+	right: 0px;
+  	top: 4px;
+	font: 20px "Microsoft YaHei";
+	cursor: pointer;
+}
+.inside-imgWrap{
+	width: 100%;
+	height: 460px;
+}
+.insideWrap img.inside-one{
+	width: 350px;
+	height: 444px
+}
+a.changeCancelA{
+	color: #666666;	
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style>
+		html{width:122px;height:34px;overflow:hidden;};
+		body{margin:0;padding:0};
+		form{width:100%;height:100%;};
+		input{width:100%;height:100%};
+	</style>
+</head>
+<body>
+<form action="../sharing/upload.do" id="uploadImgIniframe" enctype="multipart/form-data" method="POST">
+	<input type="file" id="uploadImg" name="filename" accept="image/gif,image/jpeg,image/png,image/bmp">
+	<input type="text" name="name" value="file">
+</form>
+<script src="../js/libs/jquery/jquery.min.js"></script>
+<script src="../js/libs/form/jquery.form.min.js"></script>
+<script>
+var eventBind = function(){
+	//图片预加载与触发submit
+	$('#uploadImg').on('change',function(){
+		//js校验文件类型
+		function testFile(fileDom){
+			var imgType = ['gif','jpeg','jpg','png','bmp'] ;
+			var arr = $(fileDom).val().split('.') ;
+			var arrLength = arr.length ;
+			var t= $.inArray(arr[arrLength-1],imgType);
+			return t
+		}
+		if ( testFile($('#uploadImgIniframe').find('#uploadImg').get(0))===-1 ) {
+			showTip('error','请上传图片格式文件！',$('.dialog-tips',parent.document)) ;	
+			return ;
+		};
+		
+		var MAXWIDTH = $('.uploadInstead',parent.document).width() ;
+		var MAXHEIGHT = $('.uploadInstead',parent.document).height() ;
+		var domObj = $('.uploadInstead',parent.document)[0] ;
+		if (document.getElementById('uploadImg').files && document.getElementById('uploadImg').files[0]){
+			domObj.innerHTML='<img id="preview">' ;
+			// var img = document.getElementById('preview') ;
+			var img = $('#preview',parent.document)[0] ;
+			img.onload = function(){
+				var rect = clacImgZoomParam(MAXWIDTH,MAXHEIGHT,img.offsetWidth,img.offsetHeight) ;
+				img.width = rect.width ;
+				img.height = rect.height ;
+				img.style.marginLeft = rect.left+'px' ;
+				img.style.marginTop = rect.top+'px' ;
+			}
+			var reader = new FileReader() ;
+			reader.onload =function(evt){
+				// img.src = evt.target.result;
+				//获取到本地图片后触发submit
+			 	$('#uploadImgIniframe').ajaxSubmit(function(data){
+			 		//将获得到的服务器端的地址填充给隐藏input
+			 		data = JSON.parse(data) ;
+			 		if (data.status === false){
+			 			if (data.key === 'error.img.not.available'){
+			 				showTip('error','图片不可用，请重新上传',$('.dialog-tips',parent.document)) ;
+			 			}else{
+			 				showTip('error','服务正忙, 请稍后重新选择图片',$('.dialog-tips',parent.document)) ;
+			 			}
+			 			return ;
+			 		}
+			 		//判断上层状态,确定是修改图片还是新增图片
+			 		//确定是新增
+			 		if ( $('.eachPhoto_cursor.addImg',parent.document).hasClass('active') ){
+			 			//判断当前已有的img选项数量
+				 		//当前为8+1=9,新增一个后将+号设为不可active
+				 		var imgLength = $('.eachPhoto_cursor',parent.document).length ;
+				 		//照片指针元素
+				 		var imgCursor = '<div class="eachPhoto_cursor" id="imgCursor'+imgLength+'">'+imgLength+'<div class="deleteImg hover">X</div></div>' ;
+			 			//input存储元素
+			 			var inputCursor = '<input style="display:none;" name="imgPath" id="imgPath'+imgLength+'">' ;
+				 		//插入html
+				 		$('.multPhoto',parent.document).find('.addImg').before(imgCursor) ;
+				 		$('.imgListStore',parent.document).append(inputCursor) ;
+				 		
+				 		//数值控制
+				 		$('#imgPath'+imgLength,parent.document).val(data.data) ;
+			 			//类状态控制.改为直接触发click事件
+				 		$('#imgCursor'+imgLength,parent.document).trigger('click') ;
+				 		
+			 			showTip('success','图片上传成功',$('.dialog-tips',parent.document)) ;
+			 		}else{
+			 			//否则是编辑已有的图片信息
+			 			var $nowEditImg = $('.eachPhoto_cursor.active',parent.document) ;
+			 			var editIndex = $nowEditImg.get(0).id.substr(9) ;
+			 			$('#imgPath'+editIndex,parent.document).val(data.data) ;
+			 			showTip('success','图片编辑成功',$('.dialog-tips',parent.document)) ;
+			 			$('#imgCursor'+editIndex,parent.document).trigger('click') ;
+			 		}
+			 		//清空当前input内容, 让下一次选择图片能触发onChange事件,使用现移除再添加的方式
+					var nowFileStr = '<input type="file" id="uploadImg" name="filename" accept="image/gif,image/jpeg,image/jpg,image/png,image/bmp">' ;
+					var $nowFileInput = $('#uploadImg')
+					$nowFileInput.after(nowFileStr) ;
+					$nowFileInput.remove() ;
+					//执行动作绑定
+					eventBind() ;
+			 		//阻止跳转
+			 		return false ;
+			 	})
+			}
+			var file = document.getElementById('uploadImg').files[0] ;
+			reader.readAsDataURL(file) ; 
+		}else if(objPreviewFake.filters){
+		   	var objPreview = document.getElementById('preview');     
+				document.getElementById('uploadImg').select();
+			document.getElementById('uploadImg').blur();
+				var imgSrc = document.selection.createRange().text;
+			objPreviewFake.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = imgSrc;
+			objPreview.style.display = 'none';
+		}
+	});
+}
+//执行动作绑定
+eventBind() ;
+
+function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+    var param = {top:0, left:0, width:width, height:height};
+    if( width>maxWidth || height>maxHeight )
+    {
+        rateWidth = width / maxWidth;
+        rateHeight = height / maxHeight;         
+        if( rateWidth > rateHeight )
+        {
+            param.width =  maxWidth;
+            param.height = Math.round(height / rateWidth);
+        }else
+        {
+            param.width = Math.round(width / rateHeight);
+            param.height = maxHeight;
+        }
+    }
+    param.left = Math.round((maxWidth - param.width) / 2);
+    param.top = Math.round((maxHeight - param.height) / 2);
+    return param;
+};
+function showTip(type,msg,$tipsWrap){
+	if ($.type($tipsWrap) === 'undefined'){
+		$tipsWrap = $('.tips-wrap');
+		//检测tips-wrap是否滚出可视区域
+		$(window).scrollTop() > 56 ? $tipsWrap.addClass('fixed') : $tipsWrap.removeClass('fixed') ;
+	}
+	//清空当前tips
+	$tipsWrap.empty();
+	//tips模板内部,根据type来定义css样式
+	//wrap一直存在,内容持续变化
+	var $tips = $('<div class="tip '+type+'-tip">'+msg+'</div>').appendTo($tipsWrap) ;
+	//重新定位tips的位置,使其全屏居中
+	$tips.css({'margin-left':'-'+($tips.outerWidth()/2)+'px',left:'50%','z-index':2});
+	//2秒后清除tips
+	setTimeout(function(){
+		$tips.hide().remove();
+	},2000);
+}
+</script>
+</body>
+</html>

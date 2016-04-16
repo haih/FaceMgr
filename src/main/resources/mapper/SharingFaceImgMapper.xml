@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.aio.mapper.SharingFaceImgMapper">
+
+	<resultMap id="SharingFaceImgResultMap" type="SharingFaceImg">
+		<id column="id" property="id" />
+		<result column="SHARINGFACE_ID" property="sharingFaceId" />
+		<result column="IMG_PATH" property="imgPath" />
+		<result column="DEL_FLAG" property="delFlag" />
+	</resultMap>
+	 
+    <!-- 新增人脸图片信息 -->
+    <insert id="save" parameterType="SharingFaceImg" >
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+             <![CDATA[SELECT SHARING_FACE_IMG_SEQ.NEXTVAL FROM DUAL ]]>
+        </selectKey>
+        <![CDATA[
+            INSERT INTO TB_SHARING_FACE_IMG
+            (ID,SHARINGFACE_ID,IMG_PATH)
+            VALUES
+            (#{id},#{sharingFaceId},#{imgPath})
+        ]]>
+    </insert>
+    
+    <!-- 批量新增信息  -->
+    <insert id="saveBatch" parameterType="java.util.List">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+             <![CDATA[SELECT SHARING_FACE_IMG_SEQ.NEXTVAL FROM DUAL  ]]>
+        </selectKey>
+        <![CDATA[
+            INSERT INTO TB_SHARING_FACE_IMG(ID,SHARINGFACE_ID,IMG_PATH)
+             SELECT SHARING_FACE_IMG_SEQ.NEXTVAL,A.* FROM(
+        ]]>
+        <foreach collection="list" item="item" index="index"
+            separator="UNION">
+              <![CDATA[
+                SELECT #{item.sharingFaceId},#{item.imgPath} FROM DUAL
+              ]]>
+        </foreach>
+        <![CDATA[)A]]>
+    </insert>
+       
+    <!-- 更新人脸图片信息 -->
+    <update id="update" parameterType="SharingFaceImg">
+	    <![CDATA[
+	        UPDATE TB_SHARING_FACE_IMG 
+	        SET IMG_PATH = #{imgPath}
+	        WHERE SHARINGFACE_ID = #{sharingFaceId}
+	    ]]>
+    </update>
+    
+    <!-- 通过人脸信息ID获取对应图片信息 -->
+    <select id="findImgsBySharingFaceId" parameterType="Long" resultType="String">
+        <![CDATA[
+            SELECT IMG_PATH FROM TB_SHARING_FACE_IMG WHERE SHARINGFACE_ID=#{sharingFaceId}
+        ]]>
+    </select>
+    
+        <!-- 通过人脸id删除对应人脸信息 -->
+    <delete id="deleteBySharingFaceId" parameterType="Long" >
+        <![CDATA[
+            DELETE FROM TB_SHARING_FACE_IMG WHERE SHARINGFACE_ID=#{sharingFaceId}
+        ]]>
+    </delete>
+    
+</mapper>

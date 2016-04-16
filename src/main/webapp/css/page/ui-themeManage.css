@@ -1,0 +1,231 @@
+@charset "utf-8";
+
+.smallChooseList{
+	position: absolute;
+  	width: 90px;
+  	background-color: #fff;
+  	color: #666666;
+  	top: 28px;
+  	border: 1px solid #dedede;
+  	text-align: center;
+  	left: -17px;
+  	opacity: 0; 
+	filter:Alpha(opacity=0);
+	transition: all 0.2s ease-out;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	height: 0px;
+	overflow: hidden;
+}
+.addMore .smallChooseList{
+    left: -5px;
+}
+.addMore .smallLi:hover{
+  background: #4094fc ;
+}
+.smallLi{
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+}
+.smallLi a{
+  color: #666 ;
+}
+.smallLi:hover{
+	background: #2cc233 ;
+}
+.smallLi:hover a{
+  color: #fff
+}
+.addOne.able:hover .smallChooseList{
+	opacity: 1; 
+	filter:Alpha(opacity=1);
+	height: 56px;
+}
+.addMore.able:hover .smallChooseList{
+  opacity: 1; 
+  filter:Alpha(opacity=1);
+  height: 56px;
+}
+.smallNavList{
+	position: absolute;
+  	width: 60px;
+  	background-color: #fff;
+  	color: #666666;
+  	top: 30px;
+  	/* border: 1px solid #dedede; */
+  	text-align: center;
+  	left: -22px;
+  	opacity: 0;
+  	filter: Alpha(opacity=0);
+  	transition: all 0.2s ease-out;
+  	-webkit-transition: all 0.2s ease-out;
+  	-moz-transition: all 0.2s ease-out;
+  	-ms-transition: all 0.2s ease-out;
+  	-o-transition: all 0.2s ease-out;
+  	height: 0px;
+  	/*overflow: hidden;*/
+  	z-index: 2;
+  	font-size: 12px;
+  	line-height: 28px;
+  	background-color: #767676;
+  	font-style: normal;
+}
+.smallNavList::before{
+	content: '';
+  	position: absolute;
+  	top: -10px;
+  	border: 5px solid rgba(255,255,255,0);
+  	border-bottom: 5px solid #767676;
+  	height: 0px;
+  	width: 0px;
+  	z-index: 10;
+}
+.smallNavUl{
+  background-color: #777;
+}
+.smallNavLiTurn{
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+}
+.smallNavLi{
+  height: 0px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -ms-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+}
+.icon.icon-setting:hover .smallNavLi{
+	height: 28px;
+}
+.smallNavLi:hover{
+	color: #fff ;
+	background: #2cc233 ;
+}
+.smallNavLi:nth-child(2):hover {
+  color: #fff;
+  background: #E05928;
+}
+.smallNavLi:last-child:hover{
+	color: #fff;
+	background: rgb(170, 70, 204);
+}
+.icon.icon-setting:hover .smallNavList{
+	opacity: 1; 
+	filter:Alpha(opacity=1);
+	height: 56px;
+}
+
+input.themeNameInput{
+	border: 0px;
+  	width: 175px;
+  	height: 25px;
+  	line-height: 25px;
+  	position: relative;
+  	top: 6px;
+  	border-radius: 4px;
+  	background-color: #dfdfdf;
+  	font-family: inherit;
+  	padding-left: 5px;
+}
+
+.smallNavLiTurn:hover{
+	color: #fff;
+	background: #E47FAD
+}
+.smallNavLiTurn:last-child:hover{
+	color: #fff;
+	background: #4094fc;
+}
+.smallNavList ul li a{
+  display: inline-block;
+  width: 100%;
+}
+
+.bigCodeMapInside{
+  width: 280px;
+  height: 280px;
+  display: inline-block;
+  margin: 50px 60px 60px 60px;
+}
+.downloadCodeMap{
+  width: 150px;
+  background-color: #3397fd;
+  color: #fff;
+  display: inline-block;
+  height: 35px;
+  text-align: center;
+  margin: 10px 100px 40px 125px;
+  line-height: 35px;
+  border-radius: 5px;
+}
+
+
+/*图片上传多图片展示*/
+.multPhoto{
+  position: absolute;
+  width: 150px;
+  top: 22px;
+  left: 55px;
+  /*displayinlineblock3像素bug处理*/
+  font-size: 0px
+}
+.eachPhoto_cursor{
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  font-size: 15px;
+  font-family: "Microsoft Yahei";
+  color: #4393F7;
+  cursor: pointer;
+  text-align: center;
+  line-height: 32px;
+  background-color: #eaeaea;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #C7C7C7;
+}
+.eachPhoto_cursor.active{
+  background-color: #70ACF7;
+  color: #fff;
+  border: 1px solid #ECB0B0;
+}
+.deleteImg.hover{
+  display: none;
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  left: 32px;
+  top: -1px;
+  z-index: 1;
+  line-height: 12px;
+  font-size: 12px;
+  text-align: center;
+  background-color: #FF8383;
+}
+.eachPhoto_cursor.active:hover .deleteImg.hover{
+  display: block;
+}
+
+/*错误占位图*/
+.errorImg{
+  background: url(../../img/icon.png) no-repeat -1px -320px;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  margin: 0px auto;
+  font-size: 12px;
+  color: #999;
+}

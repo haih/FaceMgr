@@ -1,0 +1,148 @@
+@charset "utf-8";
+
+/*元样式*/
+.pr{
+	position: relative;
+}
+.pa{
+	position: absolute;
+}
+.dib{
+  display: inline-block;
+}
+.db{
+  display: block;
+}
+.di{
+  display: inline;
+}
+
+
+/*完全受js控制的样式,通过addClass或拼出html代码得以展现*/
+.tips-wrap{
+	position: relative;
+	z-index: 999;
+	/*高度为0,看不见*/
+	height: 0; 
+}
+.tips-wrap.fixed{
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+.tip{
+	position: absolute;;
+	top: 0;
+	padding: 5px 30px;
+	font: normal 12px "微软雅黑";
+}
+.success-tip{
+	color: #fff ;
+	background: #6ebe6c ; 
+}
+.error-tip{
+	border: solid 1px #ffbdbf;
+	color: #ff000d;
+	background: #ffebec;
+}
+
+
+
+/*公共组件.分页*/
+.pagination{
+	width: 96%;
+  	margin-left: 2%;
+  	margin-right: 2%;
+  	margin-top: 30px;
+}
+.pageControl  a.nowPage{
+	background-color: #4094fc;
+	color: #fff;
+}
+
+
+
+
+/*input样式更改*/
+/*输入框样式统一*/
+input[type="text"],
+input[type="passsword"] {
+    padding: 0 5px;
+    vertical-align: top;
+}
+/*单选与全选*/
+/*input[type="checkbox"]{
+
+}*/
+input[type="radio"] {
+    width: 18px;
+    height: 18px;
+
+    background: #fff url(../../img/icon.png) no-repeat -11px -211px;
+    background: none\9;
+
+    -webkit-appearance: none;
+       -moz-appearance: none;
+        -ms-appearance: none;
+         -o-appearance: none;
+            appearance: none;
+}
+input[type="checkbox"] {
+    
+}
+
+input[type="checkbox"]:checked {
+    /*background: none\9;*/
+    /*background-position: -171px -91px;*/
+}
+
+input[type="radio"]:checked {
+    background: none\9;
+    background-position: -11px -250px;
+}
+
+input[type="checkbox"]:disabled {
+    /*background: none\9;*/
+    /*background-position: -171px -251px;*/
+}
+
+input:focus {
+    outline: none;
+}
+
+
+
+/*form行高*/
+.formList{
+	height: 50px;
+	font-size: 14px;
+	color: #666666;
+}
+
+/*确认弹窗,内部样式*/
+.button-pannel .confirmBottomBtn{
+	display: inline-block;
+  	width: 100px;
+  	height: 28px;
+  	color: #fff;
+  	background-color: #499aff;
+  	border-radius: 3px;
+  	text-align: center;
+  	font-size: 14px;
+  	font-family: 'Microsoft Yahei';
+  	letter-spacing: 4px;
+  	line-height: 28px;
+  	margin-top: 14px;
+  	margin-left: 20px;
+  	margin-right: 20px
+}
+.button-pannel .confirmBottomBtn.cancelBtn{
+	background-color: #eeeeee;
+  	border: 1px solid #dcdcdc;
+  	color: #666666;
+}
+.button-pannel .confirmBottomBtn>a{
+	color: #fff;
+	font-size: 14px;
+  	font-family: 'Microsoft Yahei';
+}

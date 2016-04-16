@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+/*外部样式*/
+@import url("outer/ui-dialog.css");
+
+/*通用样式*/
+@import url("common/reset.css");
+@import url("common/ui-frame.css");
+@import url("common/ui-icon.css");
+@import url("common/ui-button.css");
+
+/*特定页面样式*/
+@import url("page/ui-index.css");
+@import url("page/ui-faceLibrary.css");
+@import url("page/ui-themeManage.css")

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.aio.mapper.SharingFaceMapper">
+
+    <!-- 返回结果含有图片路径集合 -->
+    <resultMap id="SharingFaceIncImgPathResultMap" type="SharingFace">
+        <id column="id" property="id" />
+        <result column="NAME" property="name" />
+        <result column="GENDER" property="gender" />
+        <result column="JOB" property="job" />
+        <result column="DEPARTMENT" property="department" />
+        <result column="MOBILE" property="mobile" />
+        <result column="CREATE_DATE" property="createTime" />
+        <association column="ID" property="imgPath"
+            select="com.iflytek.aio.mapper.SharingFaceImgMapper.findImgsBySharingFaceId">
+        </association>
+    </resultMap>
+    
+    <!-- 新增共享库信息 -->
+    <insert id="save" parameterType="SharingFace" >
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+             <![CDATA[SELECT SHARING_FACE_ID.NEXTVAL FROM DUAL ]]>
+        </selectKey>
+        <![CDATA[
+            INSERT INTO TB_SHARING_FACE
+            (ID,NAME,GENDER,JOB,DEPARTMENT,MOBILE,CREATE_DATE,DEL_FLAG)
+            VALUES
+            (#{id},#{name},#{gender},#{job},#{department},
+            #{mobile},#{createTime},#{delFlag})
+        ]]>
+    </insert>
+    
+    <!-- 更新共享库信息 -->
+    <update id="update" parameterType="SharingFace">
+        <![CDATA[
+	        UPDATE TB_SHARING_FACE SET NAME = #{name},GENDER = #{gender},
+	        JOB = #{job},DEPARTMENT = #{department},MOBILE = #{mobile}
+	        WHERE ID = #{id}
+        ]]>
+    </update>
+    
+     <!-- 通过id获取共享库信息 -->
+    <select id="findByIds" parameterType="java.lang.Long" 
+        resultMap="SharingFaceIncImgPathResultMap">
+        <![CDATA[SELECT * FROM TB_SHARING_FACE WHERE ID IN]]>
+	        <foreach collection="array" open="(" separator="," close=")"
+	            item="idItem">
+	            #{idItem}
+	        </foreach>
+    </select>
+    
+    <!-- 通过姓名获取共享库信息 -->
+    <select id="findByName" parameterType="Pager" 
+        resultMap="SharingFaceIncImgPathResultMap">
+        <![CDATA[
+            SELECT t_share.ID,t_share.NAME,t_share.GENDER,t_share.JOB,
+            t_share.DEPARTMENT,t_share.MOBILE,t_share.CREATE_DATE
+            FROM (SELECT t.*,ROW_NUMBER()OVER(ORDER BY t.CREATE_DATE DESC) AS NUM 
+            FROM TB_SHARING_FACE t 
+            WHERE t.NAME=#{entity.name} AND t.DEL_FLAG='0') t_share
+            WHERE NUM BETWEEN #{startRow} AND #{endRow} 
+        ]]>
+    </select>
+
+    <!-- 通过职位获取人脸信息 -->
+    <select id="findByJob" parameterType="Pager" 
+        resultMap="SharingFaceIncImgPathResultMap">
+        <![CDATA[
+            SELECT t_share.ID,t_share.NAME,t_share.GENDER,t_share.JOB,
+            t_share.DEPARTMENT,t_share.MOBILE,t_share.CREATE_DATE
+            FROM (SELECT t.*,ROW_NUMBER()OVER(ORDER BY t.CREATE_DATE DESC) AS NUM 
+            FROM TB_SHARING_FACE t 
+            WHERE t.JOB=#{entity.job} AND t.DEL_FLAG='0') t_share
+            WHERE NUM BETWEEN #{startRow} AND #{endRow} 
+        ]]>
+    </select>    
+
+    <!-- 通过单位获取人脸信息 -->
+    <select id="findByDepartment" parameterType="Pager" 
+        resultMap="SharingFaceIncImgPathResultMap">
+        <![CDATA[
+            SELECT t_share.ID,t_share.NAME,t_share.GENDER,t_share.JOB,
+            t_share.DEPARTMENT,t_share.MOBILE,t_share.CREATE_DATE
+            FROM (SELECT t.*,ROW_NUMBER()OVER(ORDER BY t.CREATE_DATE DESC) AS NUM 
+            FROM TB_SHARING_FACE t 
+            WHERE t.DEPARTMENT=#{entity.department} AND t.DEL_FLAG='0') t_share
+            WHERE NUM BETWEEN #{startRow} AND #{endRow} 
+        ]]>
+    </select>
+        
+    <!-- 分页查询共享库信息 -->
+    <select id="findPagerList" parameterType="Pager" 
+        resultMap="SharingFaceIncImgPathResultMap">
+        <![CDATA[
+	        SELECT t_share.ID,t_share.NAME,t_share.GENDER,t_share.JOB,
+			t_share.DEPARTMENT,t_share.MOBILE,t_share.CREATE_DATE
+			FROM (SELECT t.*,ROW_NUMBER()OVER(ORDER BY t.CREATE_DATE DESC) AS NUM 
+			FROM TB_SHARING_FACE t 
+			WHERE t.DEL_FLAG='0') t_share
+			WHERE NUM BETWEEN #{startRow} AND #{endRow} 
+        ]]>
+    </select>
+    
+    <!-- 通过人脸id删除对应人脸信息 -->
+    <delete id="deleteById" parameterType="Long" >
+        <![CDATA[
+            DELETE FROM TB_SHARING_FACE WHERE ID IN(#{id})
+        ]]>
+    </delete>
+    
+    <!-- 通过人脸id修改对应人脸删除信息-->
+    <update id="updateDelStatus" >
+        <![CDATA[
+            UPDATE TB_SHARING_FACE t set t.DEL_FLAG='1' WHERE t.ID =#{id}
+        ]]>
+    </update> 
+
+    <!-- 查询人脸库信息总和 -->
+    <select id="findPagerCount" resultType="Long">
+        <![CDATA[
+        SELECT COUNT(*) FROM TB_SHARING_FACE sharing
+        WHERE sharing.DEL_FLAG='0'
+        ]]>
+    </select>
+    
+    <!-- 通过姓名查询共享库对应信息总和 -->
+    <select id="findCountByName" parameterType="Pager" resultType="Long">
+        <![CDATA[
+        SELECT COUNT(*) FROM TB_SHARING_FACE sharing
+        WHERE sharing.DEL_FLAG='0' AND sharing.NAME=#{entity.name}
+        ]]>
+    </select>
+    
+</mapper>

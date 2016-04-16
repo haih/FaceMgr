@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+<meta chartset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+<title>人脸识别客户端</title>
+<link rel="stylesheet" type="text/css" href="css/mobile/style.css">
+<link rel="stylesheet" type="text/css" href="css/mobile/media.css" />
+</head>
+<body>
+    <header>
+        2015科大讯飞年度盛典
+    </header>
+    <form action="subject/addParticipants.do">
+    <div class="photo">
+        <div class="preview">
+            <img class="previewImg" id="previewImg" src="./img/mobile/bg_photo.png"></img>
+            <!-- <div id="contentHolder">      
+                <video id="video" width="320" height="320" autoplay>
+                </video>      
+                <button id="snap" style="display:block;background-color:blue"> 拍照</button>        
+                <canvas style="display:none" id="canvas" width="320" height="320">
+                </canvas>
+            </div>
+            <div id="support"></div> -->
+        </div>
+        <div class="a-btn">上传头像
+            <input type="file" capture=camcorder id="uploadPhoto" accept="image/gif,image/jpeg,image/png,image/bmp"></input>
+            <input type="text" id="imgPath" name="imgPath">
+            <input type="text" id="subjectId" name="subjectId">
+            <!-- 图片上传嵌入iframe -->
+            <iframe class="mobilePreviewSubmit" id="imgPreviewSubmit" src="./page/mobilePicture.html"></iframe>
+        </div>
+        <div class="radio-wapper">
+            <div class="inline-li fl">
+                <input type="radio" id="man" checked="checked" name="gender" value="男" style="display:inline-block">
+                <label for="man">男</label>
+                <!-- <input type="radio" id="man" checked="checked" name="sex" value="1">
+                <li class="man checked li-icon fl"></li>
+                <label>男</label> -->
+            </div>
+            <div class="inline-li fl">
+                <input type="radio" id="woman" name="gender" value="女" style="display:inline-block">
+                <label for="woman">女</label>
+                <!-- input type="radio" id="woman" name="sex" value="2">
+                <li class="woman li-icon fl"></li>
+                <label>女</label> -->
+            </div>
+            <div class="cb"></div>
+        </div>
+    </div>
+    <div class="input-wapper">
+        <div class="input-list">
+            <li class="input-icon fl name"></li>
+            <span class="input-span fl">姓&nbsp;&nbsp;&nbsp;&nbsp;名</span>
+            <input id="name" class="input-text fl" placeholder="请输入真实姓名" name="name" value=""></input>
+        </div>
+        <div class="input-line"></div>
+        <div class="input-list">
+            <li class="input-icon fl work"></li>
+            <span class="input-span fl">职&nbsp;&nbsp;&nbsp;&nbsp;位</span>
+            <input id="job" class="input-text fl" name="job" placeholder="请输入当前职务" value=""></input>
+            <div class="upOrdown fl">
+                <li class="icon-up"></li>
+                <li class="icon-down"></li>
+            </div>
+        </div>
+        <div class="input-line"></div>
+        <div class="input-list">
+            <li class="input-icon fl home"></li>
+            <span class="input-span fl">单&nbsp;&nbsp;&nbsp;&nbsp;位</span>
+            <input id="department" class="input-text" placeholder="请输入所在单位" name="department" value=""></input>
+        </div>
+        <div class="input-line"></div>
+        <div class="input-list">
+            <li class="input-icon fl phone"></li>
+            <span class="input-span fl">手&nbsp;&nbsp;&nbsp;&nbsp;机</span>
+            <input id="mobile" class="input-text fl" value="12345678901" name="mobile"></input>
+            <div class="reset fl"></div>
+        </div>
+    </div>
+    <button type="submit" class="btn">立即报名</button>
+    </form>
+    <footer>
+    </footer> 
+<script src="js/libs/jquery/jquery.min.js"></script>
+<script src="js/mobile/mobile.js"></script>
+</body>
+</html>

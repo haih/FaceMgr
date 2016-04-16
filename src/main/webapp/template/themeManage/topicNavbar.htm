@@ -1,0 +1,27 @@
+<!-- 左侧主题栏 -->
+	<div class="topicNavbar">
+		<div class="title">
+			<i class="icon icon-topic"></i>
+			<h2>主题管理</h2>
+		</div>
+		<div class="addTheme">
+			<a href="" class="addNewTheme" data-beforeAjax="showAddTheme"><span style="font-size:12px;font-weight: bold;">+</span> 添加主题会议</a>
+			<div class="addThemeWrap" style="display:none;">
+				<input class="addThemeInput" placeholder="请输入主题会议名称" >
+				<a data-beforeAjax="cancelAddTheme" class="changeCancelA" data-afterAjax="showNewNavbarList">取消</a>
+			</div>
+		</div>
+		<div class="ThemeList">
+			{@each data as item,index}
+			<div class="eachTheme">
+				<span class="dot"></span>
+				<a class="themeName" href="subject/findPager.do?id=${item.ID}&faceName=" data-beforeAjax="showEachThemeBefore" data-afterAjax="showEachThemeAfter">${item.SUBJECT_NAME}</a>
+				<i class="icon icon-setting"></i>
+			</div>
+			{@/each}
+		</div>		
+	</div>
+	<!-- 右侧主显示区域 -->
+	<div class="topicList" id="topicList">
+
+	</div>

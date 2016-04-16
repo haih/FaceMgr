@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style>
+		html{width:122px;height:34px;overflow:hidden;};
+		body{margin:0;padding:0};
+		form{width:100%;height:100%;};
+		input{width:100%;height:100%};
+	</style>
+</head>
+<body>
+<form action="../subject/upload.do" id="uploadImgIniframe" enctype="multipart/form-data" method="POST">
+	<input type="file" id="uploadImg" name="filename" style="width:150px;height:35px;position:relative;left:-20px;top:-10px;" accept="image/gif,image/jpeg,image/png,image/bmp">
+	<input type="text" name="name" value="file">
+</form>
+<script src="../js/libs/jquery/jquery.min.js"></script>
+<script src="../js/libs/form/jquery.form.min.js"></script>
+<script>
+//图片预加载与触发submit
+$('#uploadImg').on('change',function(){
+	//js校验文件类型
+	function testFile(fileDom){
+		var imgType = ['gif','jpeg','jpg','png','bmp'] ;
+		var arr = $(fileDom).val().split('.') ;
+		var arrLength = arr.length ;
+		var t= $.inArray(arr[arrLength-1],imgType);
+		return t
+	}
+	if ( testFile($('#uploadImgIniframe').find('#uploadImg').get(0))===-1 ) {
+		showTips('error','请上传图片格式文件！',$('#mobileTipWrap',parent.document));	
+		return ;
+	};
+	
+	var MAX_WIDTH = $('#previewImg',parent.document).width() ;
+	var MAX_HEIGHT = $('#previewImg',parent.document).height() ;
+	var domObj = $('.preview',parent.document)[0] ;
+	if (document.getElementById('uploadImg').files && document.getElementById('uploadImg').files[0]){
+		domObj.innerHTML='<img id="preview">' ;
+		var img = $('#preview',parent.document)[0] ;
+		var reader = new FileReader() ;
+		reader.onload =function(evt){
+			img.src = evt.target.result;		
+		 	$('#uploadImgIniframe').ajaxSubmit(function(data){
+		 		//将获得到的服务器端的地址填充给隐藏input
+		 		data = JSON.parse(data) ;
+		 		$('#imgPath',parent.document).val(data.data) ;
+
+		 		//阻止跳转
+		 		return false ;
+		 	})
+		}
+		var file = document.getElementById('uploadImg').files[0] ;
+		reader.readAsDataURL(file) ; 
+	}else if(objPreviewFake.filters){
+	   	var objPreview = document.getElementById('preview');     
+			document.getElementById('uploadImg').select();
+		document.getElementById('uploadImg').blur();
+			var imgSrc = document.selection.createRange().text;
+		objPreviewFake.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = imgSrc;
+		objPreview.style.display = 'none';
+	}
+});
+function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+    var param = {top:0, left:0, width:width, height:height};
+    if( width>maxWidth || height>maxHeight )
+    {
+        rateWidth = width / maxWidth;
+        rateHeight = height / maxHeight;         
+        if( rateWidth > rateHeight )
+        {
+            param.width =  maxWidth;
+            param.height = Math.round(height / rateWidth);
+        }else
+        {
+            param.width = Math.round(width / rateHeight);
+            param.height = maxHeight;
+        }
+    }
+    param.left = Math.round((maxWidth - param.width) / 2);
+    param.top = Math.round((maxHeight - param.height) / 2);
+    return param;
+};
+function showTips(type,message,$wrap){
+    if (type="success"){
+        var eleTips = '<div class="success mobileTips"></div>' ;
+    }else if(type="error"){
+        var eleTips = '<div class="error mobileTips"></div>' ;
+    }
+    if( !$wrap){
+        $wrap = $('#mobileTipWrap',parent.document) ;
+    }
+    $wrap.html(eleTips) ;
+    $('.mobileTips',parent.document).text(message) ;
+
+    var VIEW_WIDTH = $(window).width() ;
+    var VIEW_HEIGHT = $(window).height() ;
+
+    var TIP_WIDTH = $wrap.width() ;
+    var TIP_HEIGHT = $wrap.height() ;
+
+    $wrap.css({'left': VIEW_WIDTH/2-70,'top': VIEW_HEIGHT/2-TIP_HEIGHT/2}) ;
+
+    setTimeout(function(){
+        $('.mobileTips',parent.document).remove() ;
+    },3000)
+
+}
+</script>
+</body>
+</html>

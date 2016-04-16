@@ -1,0 +1,44 @@
+<i class="icon icon-closeDialog" i="close"></i>
+<!-- 右侧主显示区域 -->
+<div class="operation">		
+	<h3 style="width: 400px;">批量导入失败详情</h3>
+	<div class="utilBtn">
+		<a class="moveToShare able downFailListNative" href="subject/downloadErrorList.do?path=${key}" data-autoevent="download">下载列表</a>
+	</div>
+	<input style="display:none;" id="sharingToThemeId" value="">
+</div>
+<div class="list down fail">
+	<table class="table formSharingToTheme">
+		<thead>
+			<tr>
+				<td width="70px">照片</td>
+				<td width="72px">姓名</td>
+				<td width="58px">性别</td>
+				<td width="88px">职位</td>
+				<td width="150px">所在单位</td>
+				<td width="120px">手机号码</td>
+			</tr>
+		</thead>
+		<tbody>
+		{@if data.length!=0 }
+			{@each data as item,index}
+			<tr>
+				<td>
+					<!-- <img src="" alt="无效" class="smallImg"> -->
+					<div class="errorImg">无效</div>
+				</td>
+				<td>${item.name}</td>
+				<td>${item.gender}</td>
+				<td>${item.job}</td>
+				<td>${item.department}</td>
+				{@if item.mobile===null}
+				<td>--</td>
+				{@else}
+				<td>${item.mobile}</td>
+				{@/if}
+			</tr>
+			{@/each}
+		{@/if}
+		</tbody>
+	</table>
+</div>

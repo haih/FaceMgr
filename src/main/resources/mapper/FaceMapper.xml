@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.aio.mapper.FaceMapper">
+
+	<resultMap id="FaceResultMap" type="Face">
+		<id column="id" property="id" />
+		<result column="NAME" property="name" />
+		<result column="GENDER" property="gender" />
+		<result column="JOB" property="job" />
+		<result column="DEPARTMENT" property="department" />
+		<result column="MOBILE" property="mobile" />
+		<result column="CREATE_DATE" property="createTime" />
+	</resultMap>
+	
+    <!-- 返回结果含有图片路径集合 -->
+    <resultMap id="FaceIncImgPathResultMap" type="Face">
+        <id column="id" property="id" />
+        <result column="NAME" property="name" />
+        <result column="GENDER" property="gender" />
+        <result column="JOB" property="job" />
+        <result column="DEPARTMENT" property="department" />
+        <result column="MOBILE" property="mobile" />
+        <result column="CREATE_DATE" property="createTime" />
+        <result column="UPDATE_DATE" property="updateTime" />
+        <result column="VERIFY_COUNT" property="verifyCount" />
+        <result column="SUBJECT_ID" property="subjectId" />
+        <result column="ACTION_FLAG" property="actionFlag" />
+        <association column="ID" property="imgPath"
+            select="com.iflytek.aio.mapper.FaceImgMapper.findImgsByFaceId">
+        </association>
+    </resultMap>
+    
+    <!-- 新增人脸信息 -->
+    <insert id="save" parameterType="Face" >
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+             <![CDATA[SELECT face_id_seq.NEXTVAL FROM DUAL ]]>
+        </selectKey>
+        <![CDATA[
+            INSERT INTO TB_FACE
+            (ID,NAME,SUBJECT_ID,GENDER,JOB,DEPARTMENT,MOBILE,CREATE_DATE,UPDATE_DATE,
+            VERIFY_COUNT,ACTION_FLAG,INPUT_FROM,SHARING_ID)
+            VALUES
+            (#{id},#{name},#{subjectId},#{gender},#{job},#{department},#{mobile},
+            #{createTime},#{updateTime},#{verifyCount},#{actionFlag},#{inputFrom},#{sharingId})
+        ]]>
+    </insert>
+    
+    <insert id="copy" parameterType="java.lang.Long" >
+	    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+	         <![CDATA[SELECT face_id_seq.NEXTVAL FROM DUAL ]]>
+	    </selectKey>
+	    <![CDATA[
+		    INSERT INTO TB_FACE
+	        (ID,NAME,SUBJECT_ID,GENDER,JOB,DEPARTMENT,MOBILE,CREATE_DATE,
+	        VERIFY_COUNT,ACTION_FLAG,INPUT_FROM,SHARING_ID)
+		    SELECT face_id_seq.nextval,t1.NAME,#{1},t1.GENDER,t1.JOB,t1.department,t1.Mobile,t1.Create_Date,
+		    t1.VERIFY_COUNT,t1.ACTION_FLAG,t1.INPUT_FROM,t1.SHARING_ID
+		    FROM TB_FACE t1 WHERE subject_id=#{0}
+	    ]]>
+    </insert>
+        
+    <!-- 更新主题库人员信息 -->
+    <update id="update" parameterType="Face">
+        <![CDATA[
+            UPDATE TB_FACE SET NAME = #{name},GENDER = #{gender},JOB = #{job},DEPARTMENT = #{department},
+            MOBILE = #{mobile},UPDATE_DATE = #{updateTime},ACTION_FLAG = #{actionFlag}
+            WHERE ID = #{id}
+        ]]>
+    </update>
+        
+    <!-- 通过姓名获取人脸信息 -->
+    <select id="findByName" parameterType="Pager" resultMap="FaceIncImgPathResultMap">
+        <![CDATA[
+            SELECT face.ID,face.NAME,face.GENDER,face.JOB,
+            face.DEPARTMENT,face.MOBILE,face.CREATE_DATE,face.VERIFY_COUNT
+            FROM (SELECT t.*,ROW_NUMBER()OVER(ORDER BY t.CREATE_DATE DESC) AS NUM 
+            FROM TB_FACE t
+            WHERE t.NAME=#{entity.name} AND ACTION_FLAG!='-1' 
+            AND t.SUBJECT_ID=#{entity.subjectId}) face
+            WHERE NUM BETWEEN #{startRow} AND #{endRow} 
+        ]]>
+    </select>
+
+    <!-- 通过姓名查询主题库对应信息数量总和 -->
+    <select id="findCountByName" parameterType="Pager" resultType="Long">
+        <![CDATA[
+	        SELECT COUNT(*) FROM TB_FACE face
+	        WHERE face.ACTION_FLAG!='-1' 
+	        AND face.NAME=#{entity.name}
+        ]]>
+    </select>
+    
+    <!-- 通过id获取主题库信息 -->
+    <select id="findByIds" parameterType="java.lang.Long" 
+        resultMap="FaceIncImgPathResultMap">
+        <![CDATA[SELECT * FROM TB_FACE WHERE ID IN]]>
+            <foreach collection="array" open="(" separator="," close=")"
+                item="idItem">
+                #{idItem}
+            </foreach>
+    </select>   
+         
+    <!-- 通过共享库id查找对应的人脸信息 -->
+    <select id="findBySharingId" parameterType="Long" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT face.ID
+            FROM TB_FACE face 
+            WHERE SHARING_ID=#{sharingId} AND ACTION_FLAG!='-1'
+        ]]>
+    </select>
+    
+    <!-- 通过人脸库id查找对应的共享信息 -->
+    <select id="findSharingIdById" parameterType="Long" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT face.SHARING_ID
+            FROM TB_FACE face 
+            WHERE ID=#{id} AND ACTION_FLAG!='-1'
+        ]]>
+    </select>    
+
+    <!-- 通过主题ID查找对应的人脸信息ID -->
+    <select id="findBySubjectId" parameterType="Long" resultType="java.lang.Long">
+        <![CDATA[
+            SELECT face.ID
+            FROM TB_FACE face 
+            WHERE face.SUBJECT_ID=#{subjectId} AND face.ACTION_FLAG!='-1'
+        ]]>
+    </select>
+           
+    <!-- 通过主题模块编号以及人员姓名获取分页人脸信息 -->
+    <select id="findPagerList" parameterType="Pager"
+        resultMap="FaceIncImgPathResultMap">
+        <![CDATA[
+            SELECT ID, NAME, SUBJECT_ID, GENDER, JOB, DEPARTMENT,MOBILE, CREATE_DATE
+            FROM (SELECT face.*,ROW_NUMBER() OVER(ORDER BY face.CREATE_DATE DESC)AS RN 
+            FROM TB_FACE face WHERE face.SUBJECT_ID=#{param1.entity.id} AND face.ACTION_FLAG!='-1' 
+        ]]>
+            <if test="faceName !=null and faceName != ''">
+                <![CDATA[ AND face.NAME = #{faceName}]]>
+            </if>
+        <![CDATA[ )
+            WHERE RN BETWEEN #{param1.startRow} AND #{param1.endRow} 
+        ]]>
+    </select>
+    
+    <!-- 通过主题模块编号以及人员姓名获取分页人脸信息 -->
+    <select id="findAllBySubId" parameterType="Long"
+        resultMap="FaceIncImgPathResultMap">
+        <![CDATA[
+            SELECT face.ID, face.NAME, face.SUBJECT_ID, face.GENDER, face.JOB,
+            face.DEPARTMENT, face.MOBILE, face.CREATE_DATE,face.UPDATE_DATE
+            FROM TB_FACE face WHERE face.SUBJECT_ID=#{subjectId} AND face.ACTION_FLAG!='-1' 
+        ]]>
+    </select>  
+     
+        <!-- 通过主题模块编号以及人员姓名获取分页人脸信息 -->
+    <select id="findUpdateInfoById" 
+        resultMap="FaceIncImgPathResultMap">
+        <![CDATA[
+            SELECT face.ID, face.NAME, face.SUBJECT_ID, face.GENDER, 
+            face.JOB, face.DEPARTMENT, face.MOBILE, face.CREATE_DATE, 
+            face.UPDATE_DATE, face.ACTION_FLAG
+            FROM TB_FACE face WHERE face.SUBJECT_ID=#{0} AND face.UPDATE_DATE>#{1} 
+        ]]>
+    </select>  
+   
+    <!-- 批量新增人脸信息 -->
+    <insert id="insertBatchFaceInfo" parameterType="java.util.ArrayList">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+             <![CDATA[SELECT face_id_seq.NEXTVAL FROM DUAL ]]>
+        </selectKey>
+        <![CDATA[INSERT INTO TB_FACE
+        (ID,NAME,GENDER,JOB,DEPARTMENT,MOBILE,CREATE_DATE,AUDIT_FLAG,ACTION_FLAG)
+        SELECT face_id_seq.NEXTVAL,A.* FROM(]]>
+        <foreach collection="faceInfoList" item="face" index="index"
+            separator="UNION ALL">
+            <![CDATA[SELECT #{face.name},#{face.gender},#{face.job},
+                #{face.department},#{face.mobile},#{face.createTime},
+                #{face.auditFlag},#{face.actionFlag} FROM DUAL]]>
+        </foreach>
+            <![CDATA[)A]]>
+    </insert>
+    
+    <!-- 通过人脸id删除对应人脸信息 -->
+    <delete id="deleteById" parameterType="Long" >
+        <![CDATA[
+            DELETE FROM TB_FACE WHERE ID IN(#{id})
+        ]]>
+    </delete>
+    
+    <!-- 通过人脸id修改对应人脸删除信息-->
+    <update id="updateDelStatus" >
+        <![CDATA[
+            UPDATE TB_FACE t set t.ACTION_FLAG='-1', t.UPDATE_DATE=#{1}
+            WHERE t.ID =#{0} 
+        ]]>
+    </update> 
+
+    <!-- 通过faceId更新共享库关联的id号-->
+    <update id="updateSharingId" >
+        <![CDATA[
+            UPDATE TB_FACE t set t.SHARING_ID=#{1} WHERE t.ID =#{0}
+        ]]>
+    </update> 
+    
+    <!-- 查询人脸库信息总和 -->
+    <select id="findPagerCount" parameterType="Long" resultType="Long">
+        <![CDATA[
+            SELECT COUNT(*) FROM TB_FACE face
+            WHERE face.ACTION_FLAG!='-1' AND face.SUBJECT_ID =#{subjectId} 
+        ]]>
+    </select>
+        <!-- 查询人脸库信息总和 -->
+    <select id="isUserExist" resultType="int">
+        <![CDATA[
+            SELECT COUNT(*) FROM TB_FACE face 
+            WHERE face.NAME=#{0} AND face.DEPARTMENT=#{1} 
+            AND face.ACTION_FLAG!='-1' AND face.SUBJECT_ID=#{2}
+        ]]>
+    </select>
+</mapper>

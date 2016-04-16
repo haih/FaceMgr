@@ -1,0 +1,119 @@
+<i class="icon icon-closeDialog" i="close"></i>
+<!-- dialog内部弹出层 -->
+<div class="dialog-tips">
+</div>
+<!-- 右侧主显示区域 -->
+<div class="operation" style="height:50px">		
+	<h3 style="width: 400px;line-height:70px">公共库&nbsp;<span style="color:rgb(232, 137, 137)">→</span>&nbsp;<span style="color:#5DA4DF;font-size: 13px;">${subjectNameStore}</span></h3>
+	<div class="utilBtn">
+		<div class="searchWrap">
+			<input placeholder="请输入人员姓名" class="faceLibraryInput" value="${params.name}" style="font-size:12px;">
+			<a href="sharing/findPager.do" data-beforeAjax="searchFace" data-afterAjax="searchFaceFormSharingAfter">
+				<i class="icon icon-search"></i>
+			</a>
+		</div>
+		<!-- <a class="addOne able">新建</a> -->
+		<!-- <a class="moveToShare able" href="subject/addFromSharing.do" data-beforeAjax="addFromSharingBefore" data-afterAjax="addFromSharingAfter" data-confirm="确认导入到主题${subjectNameStore}？">导入</a> -->
+		<a class="moveToShare able" href="subject/addFromSharing.do" data-beforeAjax="addFromSharingBefore" data-afterAjax="addFromSharingAfter">导入</a>
+	</div>
+	<input style="display:none;" id="sharingToThemeId" value="${subjectIdStore}">
+</div>
+<div class="list">
+	<table class="table formSharingToTheme">
+		<thead>
+			<tr>
+				<td width="45px">选择</td>
+				<td width="70px">照片</td>
+				<td width="72px">姓名</td>
+				<td width="58px">性别</td>
+				<td width="88px">职位</td>
+				<td width="150px">所在单位</td>
+				<td width="120px">手机号码</td>
+				<td width="150px">注册时间</td>
+			</tr>
+		</thead>
+		<tbody>
+		{@if data.data.length!=0 }
+			{@each data.data as item,index}
+			<tr>
+				<td>
+					<input type="checkbox" value="${item.id}" name="id" class="deleteChecked">
+				</td>
+				<td>
+					{@if item.imgPath.length!==0}
+					<img src="../${item.imgPath[0]}" class="smallImg">
+					{@else}
+					<img src="" alt="空" class="smallImg">
+					{@/if}
+				</td>
+				<td>${item.name}</td>
+				<td>${item.gender}</td>
+				<td>${item.job}</td>
+				<td>${item.department}</td>
+				{@if item.mobile===null}
+				<td>--</td>
+				{@else}
+				<td>${item.mobile}</td>
+				{@/if}
+				<td>${item.createTime}</td>
+			</tr>
+			{@/each}
+		{@/if}
+		</tbody>
+	</table>
+	<div class="pagination" style="margin-top:10px;padding-bottom: 15px;">
+		<span>共<span style="color:red">${data.totalRows}</span>条记录</span>
+		&nbsp;&nbsp;
+		<span>每页</span>
+		<span class="count">${data.pageSize}</span>
+		<span>条记录</span>
+
+		<div  class="pageControl">
+			<a href="sharing/findPager.do${params|transParam,'curPage',1}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">首页</a>
+			{@if data.curPage==1}
+	            <a href="defaultEvent">上一页</a>
+	            {@else if data.totalPages==0}
+	            <a href="defaultEvent">上一页</a>
+	            {@else}
+	            <a href="sharing/findPager.do${params|transParam,'curPage',data.curPage-1}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">上一页</a>
+	        {@/if}
+			{@if data.curPage-3>1}
+                <a href="sharing/findPager.do${params|transParam,'curPage',1}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">1</a>
+                <a href="defaultEvent" class="more">···</a>
+                <a href="sharing/findPager.do${params|transParam,'curPage',data.curPage-2}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">${data.curPage-2}</a>
+                <a href="sharing/findPager.do${params|transParam,'curPage',data.curPage-1}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">${data.curPage-1}</a>
+            {@else}
+                {@if data.curPage==1}
+                
+                {@else}
+                {@each i in range(1,data.curPage)}
+                <a href="sharing/findPager.do${params|transParam,'curPage',i}"  data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">${i}</a>  
+                {@/each}
+                {@/if}
+            {@/if}
+                <a href="sharing/findPager.do${params|transParam,'curPage',data.curPage}" class="curPage" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">${data.curPage}</a>
+            {@if data.totalPages-3>data.curPage}
+                <a href="sharing/findPager.do${params|transParam,'curPage',data.curPage+1}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">${data.curPage+1}</a>
+                <a href="sharing/findPager.do${params|transParam,'curPage',data.curPage+2}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">${data.curPage+2}</a>
+                <a href="defaultEvent" class="more">···</a>
+                <a href="sharing/findPager.do${params|transParam,'curPage',data.totalPages}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">${data.totalPages}</a>
+            {@else}
+                {@if data.curPage==data.totalPages}
+                
+                {@else}
+                {@each i in range(data.curPage+1,data.totalPages+1)}
+                <a href="sharing/findPager.do${params|transParam,'curPage',i}"  data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">${i}</a>  
+                {@/each}
+                {@/if}
+            {@/if}
+            {@if data.curPage==data.totalPages}
+	            <a href="defaultEvent">下一页</a>
+	            {@else if data.totalPages==0}
+	            <a href="defaultEvent">下一页</a>
+	            {@else}
+	            <a href="sharing/findPager.do${params|transParam,'curPage',data.curPage+1}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">下一页</a>
+            {@/if}
+			<a href="sharing/findPager.do${params|transParam,'curPage',data.totalPages}" data-afterajax="addNewParticipantsAfter" data-beforeajax="showFaceListBefore">末页</a>
+		</div>
+	</div>
+</div>

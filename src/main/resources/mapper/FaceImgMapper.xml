@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.aio.mapper.FaceImgMapper">
+
+	<resultMap id="FaceImgResultMap" type="FaceImg">
+		<id column="id" property="id" />
+		<result column="FACE_ID" property="faceId" />
+		<result column="IMG_PATH" property="imgPath" />
+		<result column="DEL_FLAG" property="delFlag" />
+	</resultMap>
+	 
+    <!-- 新增人脸信息 -->
+    <insert id="save" parameterType="FaceImg" >
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+             <![CDATA[SELECT FACE_IMG_SEQ.NEXTVAL FROM DUAL ]]>
+        </selectKey>
+        <![CDATA[
+            INSERT INTO TB_FACE_IMG
+            (ID,FACE_ID,IMG_PATH)
+            VALUES
+            (#{id},#{faceId},#{imgPath})
+        ]]>
+    </insert>
+    
+      <!-- 批量新增人脸信息  -->
+    <insert id="saveBatch" parameterType="java.util.List">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+             <![CDATA[SELECT FACE_IMG_SEQ.NEXTVAL FROM DUAL  ]]>
+        </selectKey>
+        <![CDATA[
+             INSERT INTO TB_FACE_IMG(ID,FACE_ID,IMG_PATH)
+             SELECT FACE_IMG_SEQ.NEXTVAL,A.* FROM(
+        ]]>
+        <foreach collection="list" item="item" index="index"
+            separator="UNION">
+              <![CDATA[
+                SELECT #{item.faceId},#{item.imgPath} FROM DUAL
+              ]]>
+        </foreach>
+        <![CDATA[)A]]>
+    </insert>    
+    
+    <!-- 更新人脸图片信息 -->
+    <update id="update" parameterType="FaceImg">
+        <![CDATA[
+            UPDATE TB_FACE_IMG 
+            SET IMG_PATH = #{imgPath}
+            WHERE FACE_ID = #{faceId}
+        ]]>
+    </update>
+    
+    <!-- 通过人脸信息ID获取对应图片信息 -->
+    <select id="findImgsByFaceId" parameterType="Long" resultType="String">
+        <![CDATA[
+            SELECT IMG_PATH FROM TB_FACE_IMG WHERE FACE_ID=#{faceId}
+        ]]>
+    </select>
+    
+        <!-- 通过人脸id删除对应人脸信息 -->
+    <delete id="deleteByFaceId" parameterType="Long" >
+        <![CDATA[
+            DELETE FROM TB_FACE_IMG WHERE FACE_ID=#{faceId}
+        ]]>
+    </delete>
+    
+    <!-- 通过照片路径删除对应人脸信息 -->
+    <delete id="deleteByImgPath" parameterType="String" >
+        <![CDATA[
+            DELETE FROM TB_FACE_IMG WHERE IMG_PATH=#{imgPath}
+        ]]>
+    </delete>
+    
+</mapper>

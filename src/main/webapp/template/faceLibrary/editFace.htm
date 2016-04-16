@@ -1,0 +1,76 @@
+<iframe class="imgPreviewSubmit" id="imgPreviewSubmit" src="./page/pictureUpload.html">
+</iframe>
+<form class="addFace faceControl" action="sharing/update.do" data-beforeAjax="addFaceBefore" data-afterAjax="addFaceAfter" data-validate="addFaceValidate">
+<div class="addFaceWrap">
+<!-- dialog提示弹出层 -->
+	<div class="dialog-tips">
+	</div>
+	<div class="title pr">
+		<h2>编辑人员信息</h2>
+	</div>
+	<div class="imgWrap">
+		<!-- 多图片选择 -->
+		<div class="multPhoto">
+			{@each imgPath as imgEachSrc,index}
+			<div class="eachPhoto_cursor" id="imgCursor${index|addOne}">${index|addOne}<div class="deleteImg hover">X</div></div>
+			{@/each}
+			<div class="eachPhoto_cursor addImg active">+</div>
+		</div>
+		<div class="uploadInstead pr">
+			暂无照片
+			<!-- <img alt="暂无照片" class="pa" border=0 src="../${imgPath[0]}" > -->
+			<img alt="暂无照片" class="pa" border=0 src="" >
+		</div>
+		<input type="file" id="uploadImg" accept="image/gif,image/jpeg,image/png,image/bmp">
+		<a class="previewImg" href="" data-beforeAjax="letsPreviewImg" data-imgSrc="${imgPath}" data-name="${name}">预览照片</a>
+		<div type="file" href="defaultEvent" class="uploadImgBtn" style="cursor: not-allowed;" accept="image/gif,image/jpeg,image/png,image/bmp">上传照片</div>
+	</div>
+	<div class="imgListStore">
+		{@each imgPath as imgEachSrc,index}
+		<input style="display:none;" name="imgPath" id="imgPath${index|addOne}" value="${imgEachSrc}">
+		{@/each}
+	</div>
+	<!-- <input style="display:none;" name="imgPath" id="imgPath" value="${imgPath}"> -->
+	<div class="infoWrap">
+		<input style="display:none;" name="id" value="${id}">
+		<div class="formList1 radioWrap pr">
+			{@if gender=='男'}
+			<label for="genterMail"></label>
+			<input type="radio" id="genterMail" name="gender" value="男" checked><span>男</span>
+			<label for="genterFamail"></label>
+			<input type="radio" id="genterFamail" name="gender" value="女"><span>女</span>
+			{@else if gender=='女'}
+			<label for="genterMail"></label>
+			<input type="radio" id="genterMail" name="gender" value="男"><span>男</span>
+			<label for="genterFamail"></label>
+			<input type="radio" id="genterFamail" name="gender" value="女" checked><span>女</span>
+			{@else}
+			<label for="genterMail"></label>
+			<input type="radio" id="genterMail" name="gender" value="男"><span>男</span>
+			<label for="genterFamail"></label>
+			<input type="radio" id="genterFamail" name="gender" value="女"><span>女</span>
+			{@/if}
+		</div>
+		<div class="formList pr">
+			<span>姓名：</span>
+			<input placeholder="请输入真实姓名" type="text" name="name" value="${name}">
+		</div>
+		<div class="formList pr">
+			<span>职务：</span>
+			<input placeholder="请输入职务" type="text" name="job" value="${job}">
+		</div>
+		<div class="formList pr">
+			<span>单位：</span>
+			<input placeholder="请输入单位" type="text" name="department" value="${department}">
+		</div>
+		<div class="formList pr">
+			<span>手机号：</span>
+			<input placeholder="请输入手机号" type="text" name="mobile" value="${mobile}">
+		</div>
+		<div class="formBtn pr">
+			<a href="" data-beforeAjax="closeCommonDilaog">取消</a>
+			<button type="submit">确定</button>
+		</div>
+	</div>
+</div>
+</form>

@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+.icon{
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+}
+.icon-exit{
+	position: relative;
+  	background: url(../../img/icon.png) 0px 0px no-repeat;
+  	top: 16px;
+}
+.icon-search{
+	background: url(../../img/icon.png) -8px -46px no-repeat;
+  	width: 30px;
+  	height: 30px;
+}
+.icon-topic{
+	background: url(../../img/icon.png) -2px -80px no-repeat;
+  	width: 30px;
+  	position: relative;
+  	top: 13px;
+}
+.icon-setting{
+	background: url(../../img/icon.png) -8px -126px no-repeat;
+  	width: 30px;
+  	height: 30px;
+  	position: absolute;
+  	top: 4px;
+  	right: 8px
+}
+.active .icon-setting{
+	background: url(../../img/icon.png) -7px -166px no-repeat;
+}
+.icon-closeDialog{
+  background: url(../../img/icon.png) -6px -287px no-repeat ;
+  width: 30px ; 
+  height: 30px ;
+  position: absolute;
+  right: -27px;
+  top: -11px;
+}
+.icon-clearInput{  
+  background: url(../../img/icon.png) -7px -287px no-repeat;
+  width: 26px;
+  height: 25px;
+  position: absolute;
+  right: 35px;
+  top: 20px
+}
+.icon-clearInputInFaceDialog{
+  background: url(../../img/icon.png) -7px -287px no-repeat;
+  width: 26px;
+  height: 25px;
+  position: absolute;
+  right: 35px;
+  top: 20px
+}
+.icon-clearInputFaceLibrary{
+  background: url(../../img/icon.png) -7px -287px no-repeat;
+  width: 26px;
+  height: 25px;
+  position: absolute;
+  right: 35px;
+  top: 20px
+}

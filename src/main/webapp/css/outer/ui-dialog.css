@@ -1,0 +1,441 @@
+/*!
+ * ui-dialog.css
+ * Date: 2014-07-03
+ * https://github.com/aui/artDialog
+ * (c) 2009-2014 TangBin, http://www.planeArt.cn
+ *
+ * This is licensed under the GNU LGPL, version 2.1 or later.
+ * For details, see: http://www.gnu.org/licenses/lgpl-2.1.html
+ */
+.ui-dialog {
+    position: relative;
+
+    font-size: 14px;
+    line-height: 1.428571429;
+
+    opacity: 0;
+    color: #333;
+    border-radius: 3px;
+    outline: 0;
+    background-color: #fff;
+    background-clip: padding-box;
+    -webkit-transition: -webkit-transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
+            transition:         transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+
+    *zoom: 1;
+    _float: left;
+}
+
+.ui-popup-show .ui-dialog {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+
+.ui-popup-focus .ui-dialog {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.ui-popup-modal .ui-dialog {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1), 0 0 256px rgba(255, 255, 255, 0.3);
+}
+
+.ui-dialog-grid {
+    width: auto;
+    margin: 0;
+    border: 0 none;
+
+    border-spacing: 0;
+    border-collapse: collapse;
+    background: transparent;
+}
+
+.ui-dialog-header,
+.ui-dialog-body,
+.ui-dialog-footer {
+    padding: 0;
+    border: 0 none;
+
+    text-align: left;
+
+    background: transparent;
+}
+
+.ui-dialog-header {
+    border-bottom: 1px solid #e0e0e0;
+
+    white-space: nowrap;
+}
+
+.ui-dialog-close {
+    position: relative;
+    top: 5px;
+    right: 11px;
+    float: right;
+
+    padding: 0 4px;
+    border: 0;
+
+    font-size: 30px;
+    line-height: 1;
+
+    opacity: 0.2;
+    color: #000;
+    background: transparent;
+    text-shadow: 0 1px 0 #fff;
+    cursor: pointer;
+
+    _background: #fff;
+    _height: 26px;
+    _position: absolute;
+    -webkit-appearance: none;
+    filter: alpha(opacity=20);
+}
+
+.ui-dialog-close:hover,
+.ui-dialog-close:focus {
+    text-decoration: none;
+
+    opacity: 0.5;
+    color: #000;
+    outline: 0;
+    cursor: pointer;
+
+    filter: alpha(opacity=50);
+}
+
+.ui-dialog-title {
+    overflow: hidden;
+
+    height: 20px;
+    margin: 0;
+    padding: 10px 15px;
+
+    font-weight: bold;
+    line-height: 1.428571429;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: #7f8e9c;
+    cursor: default;
+}
+
+.ui-dialog-body {
+    padding: 0;
+}
+
+.ui-dialog-content {
+    position: relative;
+    display: inline-block;
+
+    text-align: left;
+    vertical-align: top;
+
+    *display: inline;
+    *zoom: 1;
+}
+
+.ui-dialog-footer {
+    padding: 0 20px 20px 20px;
+}
+
+.ui-dialog-statusbar {
+    float: left;
+
+    margin-right: 20px;
+    padding: 6px 0;
+
+    font-size: 14px;
+    line-height: 1.428571429;
+    white-space: nowrap;
+
+    color: #888;
+}
+
+.ui-dialog-statusbar label:hover {
+    color: #333;
+}
+
+.ui-dialog-statusbar input,
+.ui-dialog-statusbar .label {
+    vertical-align: middle;
+}
+
+.ui-dialog-button {
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+
+.ui-dialog-footer button {
+    display: inline-block;
+    overflow: visible;
+
+    width: 65px;
+    margin: 0 20px;
+    padding: 6px 12px;
+
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    /* background-image: none;
+    border: 1px solid transparent;*/
+
+    border-radius: 3px;
+    cursor: pointer;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
+    _margin-left: 5px;
+         -o-user-select: none;
+}
+
+.ui-popup-top-left .ui-dialog,
+.ui-popup-top .ui-dialog,
+.ui-popup-top-right .ui-dialog {
+    top: -8px;
+}
+
+.ui-popup-bottom-left .ui-dialog,
+.ui-popup-bottom .ui-dialog,
+.ui-popup-bottom-right .ui-dialog {
+    top: 8px;
+}
+
+.ui-popup-left-top .ui-dialog,
+.ui-popup-left .ui-dialog,
+.ui-popup-left-bottom .ui-dialog {
+    left: -8px;
+}
+
+.ui-popup-right-top .ui-dialog,
+.ui-popup-right .ui-dialog,
+.ui-popup-right-bottom .ui-dialog {
+    left: 8px;
+}
+
+.ui-dialog-arrow-a,
+.ui-dialog-arrow-b {
+    position: absolute;
+    display: none;
+    overflow: hidden;
+
+    width: 0;
+    height: 0;
+    border: 8px dashed transparent;
+
+    _color: #ff3fff;
+    _filter: chroma(color=#ff3fff);
+}
+
+.ui-popup-follow .ui-dialog-arrow-a,
+.ui-popup-follow .ui-dialog-arrow-b {
+    display: block;
+}
+
+.ui-popup-top-left .ui-dialog-arrow-a,
+.ui-popup-top .ui-dialog-arrow-a,
+.ui-popup-top-right .ui-dialog-arrow-a {
+    bottom: -16px;
+
+    border-top: 8px solid #7c7c7c;
+}
+
+.ui-popup-top-left .ui-dialog-arrow-b,
+.ui-popup-top .ui-dialog-arrow-b,
+.ui-popup-top-right .ui-dialog-arrow-b {
+    bottom: -15px;
+
+    border-top: 8px solid #fff;
+}
+
+.ui-popup-top-left .ui-dialog-arrow-a,
+.ui-popup-top-left .ui-dialog-arrow-b {
+    left: 15px;
+}
+
+.ui-popup-top .ui-dialog-arrow-a,
+.ui-popup-top .ui-dialog-arrow-b {
+    left: 50%;
+
+    margin-left: -8px;
+}
+
+.ui-popup-top-right .ui-dialog-arrow-a,
+.ui-popup-top-right .ui-dialog-arrow-b {
+    right: 15px;
+}
+
+.ui-popup-bottom-left .ui-dialog-arrow-a,
+.ui-popup-bottom .ui-dialog-arrow-a,
+.ui-popup-bottom-right .ui-dialog-arrow-a {
+    top: -16px;
+
+    border-bottom: 8px solid #7c7c7c;
+}
+
+.ui-popup-bottom-left .ui-dialog-arrow-b,
+.ui-popup-bottom .ui-dialog-arrow-b,
+.ui-popup-bottom-right .ui-dialog-arrow-b {
+    top: -15px;
+
+    border-bottom: 8px solid #fff;
+}
+
+.ui-popup-bottom-left .ui-dialog-arrow-a,
+.ui-popup-bottom-left .ui-dialog-arrow-b {
+    left: 15px;
+}
+
+.ui-popup-bottom .ui-dialog-arrow-a,
+.ui-popup-bottom .ui-dialog-arrow-b {
+    left: 50%;
+
+    margin-left: -8px;
+}
+
+.ui-popup-bottom-right .ui-dialog-arrow-a,
+.ui-popup-bottom-right .ui-dialog-arrow-b {
+    right: 15px;
+}
+
+.ui-popup-left-top .ui-dialog-arrow-a,
+.ui-popup-left .ui-dialog-arrow-a,
+.ui-popup-left-bottom .ui-dialog-arrow-a {
+    right: -16px;
+
+    border-left: 8px solid #7c7c7c;
+}
+
+.ui-popup-left-top .ui-dialog-arrow-b,
+.ui-popup-left .ui-dialog-arrow-b,
+.ui-popup-left-bottom .ui-dialog-arrow-b {
+    right: -15px;
+
+    border-left: 8px solid #fff;
+}
+
+.ui-popup-left-top .ui-dialog-arrow-a,
+.ui-popup-left-top .ui-dialog-arrow-b {
+    top: 15px;
+}
+
+.ui-popup-left .ui-dialog-arrow-a,
+.ui-popup-left .ui-dialog-arrow-b {
+    top: 50%;
+
+    margin-top: -8px;
+}
+
+.ui-popup-left-bottom .ui-dialog-arrow-a,
+.ui-popup-left-bottom .ui-dialog-arrow-b {
+    bottom: 15px;
+}
+
+.ui-popup-right-top .ui-dialog-arrow-a,
+.ui-popup-right .ui-dialog-arrow-a,
+.ui-popup-right-bottom .ui-dialog-arrow-a {
+    left: -16px;
+
+    border-right: 8px solid #7c7c7c;
+}
+
+.ui-popup-right-top .ui-dialog-arrow-b,
+.ui-popup-right .ui-dialog-arrow-b,
+.ui-popup-right-bottom .ui-dialog-arrow-b {
+    left: -15px;
+
+    border-right: 8px solid #fff;
+}
+
+.ui-popup-right-top .ui-dialog-arrow-a,
+.ui-popup-right-top .ui-dialog-arrow-b {
+    top: 15px;
+}
+
+.ui-popup-right .ui-dialog-arrow-a,
+.ui-popup-right .ui-dialog-arrow-b {
+    top: 50%;
+
+    margin-top: -8px;
+}
+
+.ui-popup-right-bottom .ui-dialog-arrow-a,
+.ui-popup-right-bottom .ui-dialog-arrow-b {
+    bottom: 15px;
+}
+
+@-webkit-keyframes ui-dialog-loading {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes ui-dialog-loading {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.ui-dialog-loading {
+    position: relative;
+    top: 50%;
+    display: block;
+    overflow: hidden;
+
+    width: 32px;
+    height: 32px;
+    margin: -16px auto 0 auto;
+
+    font-size: 0;
+    vertical-align: middle;
+    text-indent: -999em;
+
+    color: #666;
+
+    *display: inline;
+    *zoom: 1;
+}
+
+.ui-dialog-loading {
+    width: 100%\9;
+
+    font-size: 12px\9;
+    line-height: 32px\9;
+    text-align: center\9;
+    text-indent: 0\9;
+}
+
+.ui-dialog-loading::after {
+    content: "";
+
+    position: absolute;
+    display: none\9;
+
+    width: 3px;
+    height: 3px;
+    margin: 14.5px 0 0 14.5px;
+
+    border-radius: 100%;
+    box-shadow: 0 -10px 0 1px #ccc, 10px 0 #ccc, 0 10px #ccc, -10px 0 #ccc, -7px -7px 0 0.5px #ccc, 7px -7px 0 1.5px #ccc, 7px 7px #ccc, -7px 7px #ccc;
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+    -webkit-animation: ui-dialog-loading 1.5s infinite linear;
+            animation: ui-dialog-loading 1.5s infinite linear;
+}

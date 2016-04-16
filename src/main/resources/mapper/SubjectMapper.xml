@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iflytek.aio.mapper.SubjectMapper">
+
+	<resultMap id="SubjectResultMap" type="Subject">
+		<id column="id" property="id" />
+		<result column="SUBJECT_NAME" property="subjectName" />
+		<result column="PARTICIPATE_COUNT" property="participateCount" />
+		<result column="CREATE_DATE" property="createTime" />
+		<result column="CREATE_USER" property="createUserId" />
+		<result column="UPDATE_DATE" property="updateTime" />
+		<result column="DEL_FLAG"    property="delFlag" />
+		<result column="QRCODE_PATH" property="qrcodePath" />
+	</resultMap>
+
+	<!-- 新增主题信息 -->
+	<insert id="save" parameterType="Subject">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Long">
+             <![CDATA[SELECT SUBJECT_ID_SEQ.NEXTVAL FROM DUAL ]]>
+		</selectKey>
+        <![CDATA[
+            INSERT INTO TB_SUBJECT
+            (ID,SUBJECT_NAME,ORG_CODE,PARTICIPATE_COUNT,CREATE_USER,CREATE_DATE,UPDATE_DATE,DEL_FLAG)
+            VALUES
+            (#{id},#{subjectName},#{orgCode},#{participateCount},#{createUserId},#{createTime},#{updateTime},#{delFlag})
+        ]]>
+	</insert>
+
+	<!-- 更新主题信息 -->
+	<update id="update" parameterType="Subject">
+        <![CDATA[UPDATE TB_SUBJECT sub]]>
+		<set>
+			<if test="subjectName != null and subjectName !='' ">
+				sub.SUBJECT_NAME = #{subjectName},
+			</if>
+			<if test="participateCount != null and participateCount !='' ">
+				sub.PARTICIPATE_COUNT = #{participateCount},
+			</if>
+			<if test="updateTime != null and updateTime !='' ">
+				sub.UPDATE_DATE = #{updateTime},
+			</if>
+			<if test="delFlag != null and delFlag !='' ">
+				sub.DEL_FLAG = #{delFlag},
+			</if>
+		</set>
+        <![CDATA[
+            WHERE sub.ID =#{id}
+        ]]>
+	</update>
+
+	   <!-- 更新主题信息 -->
+    <update id="timeUpdate">
+        <![CDATA[UPDATE TB_SUBJECT sub]]>
+        <set>
+                sub.UPDATE_DATE = #{1}
+        </set>
+        <![CDATA[
+            WHERE sub.ID = #{0}
+        ]]>
+    </update>
+	
+	<!-- 通过人脸id删除对应人脸信息 -->
+	<delete id="deleteById" parameterType="Long">
+        <![CDATA[
+            DELETE FROM TB_SUBJECT WHERE ID IN(#{id})
+        ]]>
+	</delete>
+	
+    <!-- 保存二维码存储路径 -->
+    <update id="saveQRCode" >
+        <![CDATA[
+            UPDATE TB_SUBJECT s SET
+            s.QRCODE_PATH=#{1}
+            WHERE s.ID = #{0}
+        ]]>
+    </update>
+    	
+	<!-- 查看指定主题名称的数量 -->
+    <select id="findCountBySubjectName" parameterType="subject"
+        resultType="int">
+         <![CDATA[
+            SELECT COUNT(*) FROM TB_SUBJECT t 
+            WHERE t.SUBJECT_NAME = #{subjectName} 
+            AND t.DEL_FLAG = #{delFlag}
+            AND t.ORG_CODE = #{orgCode}
+         ]]>
+    </select>
+    
+	<!-- 通过编号查找主题信息 -->
+	<select id="findById" parameterType="Long" resultMap="SubjectResultMap">
+        <![CDATA[
+            SELECT * FROM TB_SUBJECT WHERE ID=#{id}
+        ]]>
+	</select>
+	
+    <!-- 通过编号查找主题信息 -->
+    <select id="findNameById" parameterType="Long" resultType="String">
+        <![CDATA[
+            SELECT s.SUBJECT_NAME FROM TB_SUBJECT s WHERE ID=#{id}
+        ]]>
+    </select>
+    
+	<!-- 获取所有会议名称 -->
+	<select id="findAllSubNameByOrgCode" resultType="java.util.HashMap">
+	    <![CDATA[
+	        SELECT t.ID,t.SUBJECT_NAME 
+            FROM TB_SUBJECT t 
+            WHERE t.ORG_CODE =#{orgCode} 
+            AND t.DEL_FLAG='0' ORDER BY t.CREATE_DATE DESC
+	    ]]>
+	</select>
+	
+    <!-- 获取所有会议名称 -->
+    <select id="findSubjectsByOrgCode" resultMap="SubjectResultMap">
+        <![CDATA[
+            SELECT t.ID,t.SUBJECT_NAME,t.UPDATE_DATE 
+            FROM TB_SUBJECT t 
+            WHERE t.ORG_CODE =#{orgCode} 
+            AND t.DEL_FLAG='0' ORDER BY t.CREATE_DATE DESC
+        ]]>
+    </select>	
+
+</mapper>
